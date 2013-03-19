@@ -1,0 +1,5 @@
+<h3>Recent recipes:
+
+$forall (Entity ident (Recipe name)) <- entities
+    <p>
+        <a href=@{RecipeR ident}>#{name}

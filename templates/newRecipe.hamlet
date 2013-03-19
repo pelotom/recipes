@@ -1,0 +1,4 @@
+<h1>Add a recipe!
+<p><form method=post action=@{NewRecipeR} enctype=#{encType}>
+    ^{formWidget}
+    <input type=submit>

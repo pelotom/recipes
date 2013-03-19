@@ -1,7 +1,13 @@
-/static StaticR Static getStatic
-/auth   AuthR   Auth   getAuth
+/static             StaticR     Static getStatic
+/auth               AuthR       Auth   getAuth
 
-/favicon.ico FaviconR GET
-/robots.txt RobotsR GET
+/favicon.ico        FaviconR    GET
+/robots.txt         RobotsR     GET
 
-/ HomeR GET POST
+/                   HomeR       GET POST
+
+/recipe             NewRecipeR  GET POST
+
+/recipe/#RecipeId   RecipeR     GET
+
+/clear              ClearR      GET
