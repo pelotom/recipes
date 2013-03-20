@@ -1,6 +1,6 @@
 <p>
     <h3>Recent recipes:
 
-$forall (Entity ident (Recipe name)) <- entities
+$forall (Entity rcpId rcp) <- entities
     <p>
-        <a href=@{RecipeR ident}>#{name}
+        <a href=@{RecipeR rcpId}>#{recipeName rcp}
