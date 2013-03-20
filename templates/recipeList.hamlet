@@ -1,4 +1,5 @@
-<h3>Recent recipes:
+<p>
+    <h3>Recent recipes:
 
 $forall (Entity ident (Recipe name)) <- entities
     <p>

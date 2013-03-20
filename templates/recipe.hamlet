@@ -1,1 +1,12 @@
-#{recipeName recipe}
+<p>
+    <a href=@{RecipesR}>Back
+<p>
+    <div>
+        <h3>#{recipeName recipe}
+    <div>
+        <h4>Ingredients:
+        <ul>
+            $forall Entity _ ingred <- ingreds
+                <li>#{ingredientName ingred}
+<p>
+    <button ##{delButtonId}>Delete</button>

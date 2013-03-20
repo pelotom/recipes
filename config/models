@@ -10,9 +10,11 @@ Email
     
 Recipe
     name Text
+    UniqueRecipeName name
     deriving Show
 Ingredient
     name Text
+    UniqueIngredientName name
 RecipeIngredient
     recipeId RecipeId
     ingredientId IngredientId

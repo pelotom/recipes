@@ -1,0 +1,12 @@
+$('##{rawJS delButtonId}').click(function() {
+    $.ajax({
+        url: '@{RecipeR recipeId}',
+        type: 'DELETE',
+        success: function(result) {
+            window.location.replace('@{RecipesR}');
+        },
+        error: function(jqxhr, status, errThrown) {
+            alert('Failed to delete recipe: ' + status);
+        }
+    });
+});
