@@ -42,10 +42,12 @@ getRecipesR = defaultLayout $ do
     newRecipeWidget
     listRecipesWidget
   where
+    newRecipeWidget :: Widget
     newRecipeWidget = do
         aDomId <- lift newIdent
         (formWidget, encType) <- lift $ generateFormPost recipeForm
         $(widgetFile "newRecipe")
+    listRecipesWidget :: Widget
     listRecipesWidget = do
         entities <- lift $ runDB $ selectList noFilter []
         $(widgetFile "recipeList")
