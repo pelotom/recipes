@@ -5,7 +5,5 @@
 /robots.txt         RobotsR     GET
 
 /                   HomeR       GET
-
 /recipes            RecipesR    GET POST DELETE
-
 /recipes/#RecipeId  RecipeR     GET DELETE
