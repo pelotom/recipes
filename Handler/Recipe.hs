@@ -5,10 +5,10 @@ import Text.Julius
 
 getRecipeR :: RecipeId -> Handler RepHtml
 getRecipeR recipeId = do
-    (recipe, ingreds) <- runDB $ do
+    (recipe, ingredients) <- runDB $ do
         recipe <- get404 recipeId
-        ingreds <- findIngreds recipeId
-        return (recipe, ingreds)
+        ingredients <- findIngreds recipeId
+        return (recipe, ingredients)
     defaultLayout $ do
         addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"
         delButtonId <- lift newIdent
@@ -32,6 +32,7 @@ deleteRecipeR recipeId = do
 recipeForm :: Form Recipe
 recipeForm = renderDivs $ Recipe
     <$> areq textField "Name" Nothing
+    <*> areq textareaField "Directions" Nothing
 
 getHomeR :: Handler ()
 getHomeR = redirect RecipesR
