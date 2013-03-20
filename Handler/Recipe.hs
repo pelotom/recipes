@@ -63,7 +63,7 @@ postRecipesR = do
             redirect $ RecipeR recipeId
         _ -> redirect RecipesR
 
-getOrAddIngred :: Text -> YesodDB App App IngredientId
+getOrAddIngred :: Text -> Persist IngredientId
 getOrAddIngred name = do
     maybeEnt <- getBy $ UniqueIngredientName name
     case maybeEnt of

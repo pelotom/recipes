@@ -1,8 +1,6 @@
 <p>
     <h1>_{MsgHello}
 <p>
-    <h1>Add a recipe!
-<p>
     <form method=post action=@{RecipesR} enctype=#{encType}>
         ^{formWidget}
         <input type=submit>
