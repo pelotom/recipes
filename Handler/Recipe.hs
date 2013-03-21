@@ -1,7 +1,19 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module Handler.Recipe where
 
 import Import
-import Text.Julius
+
+data FullRecipe = FullRecipe Recipe [Ingredient]
+    
+recipeForm :: Form FullRecipe
+recipeForm = renderDivs $ mkRecipe
+    <$> areq textField "Name" Nothing
+    <*> areq textareaField "Ingredients (one per line)" Nothing
+    <*> areq textareaField "Directions" Nothing
+  where
+      mkRecipe :: Text -> Textarea -> Textarea -> FullRecipe
+      mkRecipe n i d = FullRecipe (Recipe n d) $ map Ingredient $ lines $ unTextarea i
 
 getRecipeR :: RecipeId -> Handler RepHtml
 getRecipeR recipeId = do
@@ -26,13 +38,12 @@ deleteRecipeR recipeId = do
     runDB $ do
         deleteWhere [RecipeId ==. recipeId]
         deleteWhere [RecipeIngredientRecipeId ==. recipeId]
+
+postDeleteRecipeR :: RecipeId -> Handler ()
+postDeleteRecipeR recipeId = do
+    deleteRecipeR recipeId
     setMessage "Deleted recipe"
     redirect RecipesR
-    
-recipeForm :: Form Recipe
-recipeForm = renderDivs $ Recipe
-    <$> areq textField "Name" Nothing
-    <*> areq textareaField "Directions" Nothing
 
 getHomeR :: Handler ()
 getHomeR = redirect RecipesR
@@ -56,23 +67,23 @@ postRecipesR :: Handler RepHtml
 postRecipesR = do
     ((result, _), _) <- runFormPost recipeForm
     case result of
-        FormSuccess newRecipe -> do
+        FormSuccess (FullRecipe recipe ingredients) -> do
             recipeId <- runDB $ do
-                recipeId <- insert newRecipe
-                ingredId <- getOrAddIngred "broccoli"
-                _ <- insert $ RecipeIngredient recipeId ingredId
+                recipeId <- insert recipe
+                forM_ ingredients $ \ingred -> do
+                    ingredId <- getOrAddIngred ingred
+                    insert $ RecipeIngredient recipeId ingredId
                 return recipeId
             setMessage "New recipe created"
             redirect $ RecipeR recipeId
         _ -> redirect RecipesR
 
-getOrAddIngred :: Text -> Persist IngredientId
-getOrAddIngred name = do
-    maybeEnt <- getBy $ UniqueIngredientName name
+getOrAddIngred :: Ingredient -> Persist IngredientId
+getOrAddIngred ingredient = do
+    maybeEnt <- getBy $ UniqueIngredientName $ ingredientName ingredient
     case maybeEnt of
         Just entity -> return $ entityKey entity
-        Nothing -> do
-            insert $ Ingredient name
+        Nothing -> insert ingredient
 
 deleteRecipesR :: Handler ()
 deleteRecipesR = do

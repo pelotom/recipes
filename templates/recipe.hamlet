@@ -6,7 +6,8 @@
     <ul>
         $forall Entity _ ingredient <- ingredients
             <li>#{ingredientName ingredient}
-    <h4>Instructions:
+    <h4>Directions:
     #{recipeDirections recipe}
 <p>
-    <button ##{delButtonId}>Delete</button>
+    <form method=post action=@{DeleteRecipeR recipeId}>
+        <input type=submit value="Delete Recipe">

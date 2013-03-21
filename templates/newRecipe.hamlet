@@ -3,4 +3,4 @@
 <p>
     <form method=post action=@{RecipesR} enctype=#{encType}>
         ^{formWidget}
-        <input type=submit>
+        <input type=submit value="Add Recipe">
